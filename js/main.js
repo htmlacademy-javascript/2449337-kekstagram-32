@@ -1,9 +1,6 @@
 const photoMinLike = 15;
 const photoMaxLike = 200;
 
-const photoMinId = 1;
-const photoMaxId = 25;
-
 const photoMaxComment = 30;
 
 const photoDescription = [
@@ -14,14 +11,6 @@ const photoDescription = [
   'Идеальный кадр!'
 ];
 
-const commentAvatar = [
-  'ulr(img/avatar-1.svg)',
-  'ulr(img/avatar-2.svg)',
-  'ulr(img/avatar-3.svg)',
-  'ulr(img/avatar-4.svg)',
-  'ulr(img/avatar-5.svg)',
-  'ulr(img/avatar-6.svg)'
-];
 
 const commentMessage = [
   'Всё отлично!',
@@ -50,44 +39,81 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const urlNumber = getRandomInteger(1, 25);
+const getRandomArrayElement = (items) => items[getRandomInteger(0, items.length - 1)];
 
-const photoUrl = 'ulr(photos/${urlNumber}.jpg)';
+const randomPhotoLike = getRandomInteger(photoMinLike, photoMaxLike);
 
+const createIdGenerator = () => {
+  let numberId = 0;
+  return () => {
+    numberId += 1;
+    return numberId;
+  };
+};
+
+const createMessage = () => Array.from(
+  {length: getRandomInteger(1, 2)},
+  () => getRandomArrayElement(commentMessage)
+);
+/*
 const messages = [];
 for (let i = 0; i <= getRandomInteger(1, 2); i++) {
   messages.push(getRandomInteger(0, commentMessage.length - 1));
 }
 
-const createComment = {
-  id: getRandomInteger(1, 1000),
-  avatar: getRandomInteger(0, commentAvatar.length - 1),
-  message: messages,
-  name: getRandomInteger(0, commentName.length - 1)
-};
-
 const comments = [];
 
 for (let i = 0; i <= getRandomInteger(0, photoMaxComment); i++) {
+  const createComment = {
+    id: createIdGenerator,
+    avatar: getRandomInteger(0, commentAvatar.length - 1),
+    message: messages,
+    name: getRandomInteger(0, commentName.length - 1)
+  };
   comments.push(createComment);
 }
 
-for (let i = 1; i <= 25; i++) {
-  const createPhoto = () => {
-    const randomPhotoId = getRandomInteger(photoMinId, photoMaxId);
-    const randomPhotoUrl = photoUrl;
-    const randomphotoDescription = getRandomInteger(0, photoDescription.length - 1);
-    const randomPhotoLike = getRandomInteger(photoMinLike, photoMaxLike);
+const allPhotos = [];
 
-    return {
-      photo = {
-        id: randomPhotoId,
-        url: randomPhotoUrl,
-        description: randomphotoDescription,
-        likes: randomPhotoLike,
-        comments: comments
-      };
-    };
+for (let i = 1; i <= 25; i++) {
+  const randomPhotoId = getRandomInteger(photoMinId, photoMaxId);
+  const randomPhotoUrl = `img/avatar-${getRandomInteger(1, 6)}.svg`;
+  const randomphotoDescription = getRandomInteger(0, photoDescription.length - 1);
+  const randomPhotoLike = getRandomInteger(photoMinLike, photoMaxLike);
+  const createPhoto = {
+    id: randomPhotoId,
+    url: randomPhotoUrl,
+    description: randomphotoDescription,
+    likes: randomPhotoLike,
+    comments: comments
   };
+  allPhotos.push(createPhoto);
 }
-console.log(comments);
+*/
+
+const createComment = {
+  id: createIdGenerator(),
+  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  message: createMessage(),
+  name: getRandomArrayElement(commentName)
+};
+
+const createPhoto = (index) => ({
+  id: index,
+  url: `photos/${index}.jpg`,
+  description: getRandomArrayElement(photoDescription),
+  likes: randomPhotoLike,
+  comments: Array.from(
+    {leight: getRandomInteger(0, photoMaxComment)},
+    createComment
+  )
+});
+
+const getPhoto = () => Array.from(
+  {lenght: 25},
+  (_, index) => createPhoto(index + 1)
+);
+
+getPhoto();
+
+console.log(getPhoto());
