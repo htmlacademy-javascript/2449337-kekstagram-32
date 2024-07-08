@@ -66,7 +66,7 @@ const comments = [];
 for (let i = 0; i <= getRandomInteger(0, photoMaxComment); i++) {
   const createComment = {
     id: createIdGenerator,
-    avatar: getRandomInteger(0, commentAvatar.length - 1),
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: messages,
     name: getRandomInteger(0, commentName.length - 1)
   };
@@ -77,7 +77,7 @@ const allPhotos = [];
 
 for (let i = 1; i <= 25; i++) {
   const randomPhotoId = getRandomInteger(photoMinId, photoMaxId);
-  const randomPhotoUrl = `img/avatar-${getRandomInteger(1, 6)}.svg`;
+  const randomPhotoUrl = `photos/${getRandomInteger(1, 25)}.jpg`;
   const randomphotoDescription = getRandomInteger(0, photoDescription.length - 1);
   const randomPhotoLike = getRandomInteger(photoMinLike, photoMaxLike);
   const createPhoto = {
