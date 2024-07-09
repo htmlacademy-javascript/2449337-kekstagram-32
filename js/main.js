@@ -41,8 +41,6 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (items) => items[getRandomInteger(0, items.length - 1)];
 
-const randomPhotoLike = getRandomInteger(photoMinLike, photoMaxLike);
-
 const createIdGenerator = () => {
   let numberId = 0;
   return () => {
@@ -91,26 +89,27 @@ for (let i = 1; i <= 25; i++) {
 }
 */
 
-const createComment = {
-  id: createIdGenerator(),
+const createIdComments = createIdGenerator();
+const createComment = () => ({
+  id: createIdComments(),
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
   message: createMessage(),
   name: getRandomArrayElement(commentName)
-};
+});
 
 const createPhoto = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(photoDescription),
-  likes: randomPhotoLike,
+  likes: getRandomInteger(photoMinLike, photoMaxLike),
   comments: Array.from(
-    {leight: getRandomInteger(0, photoMaxComment)},
+    {length: getRandomInteger(0, photoMaxComment)},
     createComment
-  )
+  ),
 });
 
 const getPhoto = () => Array.from(
-  {lenght: 25},
+  {length: 25},
   (_, index) => createPhoto(index + 1)
 );
 
