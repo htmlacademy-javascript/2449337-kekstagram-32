@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Алёна Колесникова](https://up.htmlacademy.ru/javascript/32/user/2449337).
-* Наставник: [Ольга Ветер](https://htmlacademy.ru/profile/id73199).
+* Наставник: [Ольга Ветер](https://htmlacademy.ru/profile/id73199)..
 
 ---
 
