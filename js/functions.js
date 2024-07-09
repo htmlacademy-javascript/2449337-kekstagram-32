@@ -1,5 +1,6 @@
 // Функия которая измеряет длину строки
-const measurementLenght = (string, maxLenght) => string <= maxLenght;
+const measurementLength = (string, maxLength) => string <= maxLength;
+
 
 
 // Функция которая проверяет строку на палиндром (Слово или фраза которые читаются вперёд и назад одинаково. Например: потом или шалаш)
