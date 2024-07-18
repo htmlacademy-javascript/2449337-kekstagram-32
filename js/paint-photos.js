@@ -1,5 +1,5 @@
 // Нахождение нужного шаблона и контейнера для добавления фото
-const templatePhoto = document.querySelector('#picture').textContent.querySelector('.picture');
+const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
 const containerForPhotos = document.querySelector('.pictures');
 
 // Функция которая создает фото по шаблону
