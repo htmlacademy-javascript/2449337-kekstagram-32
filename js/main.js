@@ -1,2 +1,5 @@
 import './random.js';
-import './create-photos.js';
+import {getPhoto} from './create-photos.js';
+import {generateTemplates} from './paint-photos.js';
+
+generateTemplates(getPhoto());
