@@ -83,3 +83,5 @@ closeButton.addEventListener('click', () => {
   closeBigPhoto();
 }
 );
+
+export {displayBigPhoto};
