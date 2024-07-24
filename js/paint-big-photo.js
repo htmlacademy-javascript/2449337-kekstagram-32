@@ -21,14 +21,16 @@ const displayBigPhoto = (information) => {
   bigPhotoClone.classList.remove('hidden');
 
   // Задание значений
-  const srcBigPhoto = bigPhotoClone.querySelector('.big-picture__img');
+  const imageBigPhoto = bigPhotoClone.querySelector('.big-picture__img').content;
+  // У строки выше я ещё пыталась задать значение
+  // const imageBigPhoto = bigPhotoClone.querySelector('.big-picture__img').content.querySelector('img'); но всё равно выдает ошибку связанную с url
   const likesBigPhoto = bigPhotoClone.querySelector('.likes-count');
   const descriptionBigPhoto = bigPhotoClone.querySelector('.social__caption');
   const visibleCommentsBigPhoto = bigPhotoClone.querySelector('.social__comment-shown-count');
   const allCommentsBigPhoto = bigPhotoClone.querySelector('.social__comment-total-count');
   const commentsBigPhoto = bigPhotoClone.querySelector('social__comments');
 
-  srcBigPhoto.textContent = information.url;
+  imageBigPhoto.src = information.url;
   likesBigPhoto.textContent = information.likes;
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
@@ -47,7 +49,7 @@ const displayBigPhoto = (information) => {
 // Переменные для функций и обработчиков ниже
 
 const pictures = document.querySelectorAll('.picture');
-const closeButton = bigPhotoClone.querySelector('big-picture__cancel');
+const closeButton = bigPhotoClone.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -58,12 +60,12 @@ const onDocumentKeydown = (evt) => {
 
 // Функции по открытию и закрытию окна
 
-const openBigPhoto = () => {
+const openBigPhoto = (card) => {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  return displayBigPhoto(getPhoto());
+  return displayBigPhoto(card);
 };
 
 const closeBigPhoto = () => {
@@ -74,10 +76,17 @@ const closeBigPhoto = () => {
 
 // Обработчики событий
 
-pictures.addEventListener('click', () => {
-  openBigPhoto();
-}
-);
+pictures.forEach((picture) => {
+  picture.addEventListener('click', () => {
+    /* Как я думаю должна сработать строка ниже
+    1. Вызывается функция openBigPhoto с аргументом элемент на который кликнули (picture)
+    2. Джаваскрипт идёт в функцию openBigPhoto и вместо card подставляет элемент на который кликнули
+    3. Когда джаваскрипт доходит до строки return displayBigPhoto(card); он идёт в функцию displayBigPhoto и подставляет вместо information элемент на который кликнули
+    4. Он подставляет данные к этому элементу
+    */
+    openBigPhoto(picture);
+  });
+});
 
 closeButton.addEventListener('click', () => {
   closeBigPhoto();
