@@ -48,7 +48,6 @@ const displayBigPhoto = (information) => {
 
 // Переменные для функций и обработчиков ниже
 
-const pictures = document.querySelectorAll('.picture');
 const closeButton = bigPhotoClone.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 const onDocumentKeydown = (evt) => {
@@ -65,7 +64,7 @@ const openBigPhoto = (card) => {
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  return displayBigPhoto(card);
+  displayBigPhoto(card);
 };
 
 const closeBigPhoto = () => {
@@ -75,22 +74,25 @@ const closeBigPhoto = () => {
 };
 
 // Обработчики событий
+const startListener = () => {
 
-pictures.forEach((picture) => {
-  picture.addEventListener('click', () => {
-    /* Как я думаю должна сработать строка ниже
-    1. Вызывается функция openBigPhoto с аргументом элемент на который кликнули (picture)
-    2. Джаваскрипт идёт в функцию openBigPhoto и вместо card подставляет элемент на который кликнули
-    3. Когда джаваскрипт доходит до строки return displayBigPhoto(card); он идёт в функцию displayBigPhoto и подставляет вместо information элемент на который кликнули
-    4. Он подставляет данные к этому элементу
-    */
-    openBigPhoto(picture);
+  const pictures = document.querySelectorAll('.picture');
+
+  pictures.forEach((picture) => {
+    picture.addEventListener('click', () => {
+      /* Как я думаю должна сработать строка ниже
+      1. Вызывается функция openBigPhoto с аргументом элемент на который кликнули (picture)
+      2. Джаваскрипт идёт в функцию openBigPhoto и вместо card подставляет элемент на который кликнули
+      3. Когда джаваскрипт доходит до строки return displayBigPhoto(card); он идёт в функцию displayBigPhoto и подставляет вместо information элемент на который кликнули
+      4. Он подставляет данные к этому элементу
+      */
+      openBigPhoto(picture);
+    });
   });
-});
-
+};
 closeButton.addEventListener('click', () => {
   closeBigPhoto();
 }
 );
 
-export {displayBigPhoto};
+export {displayBigPhoto,startListener};
