@@ -2,14 +2,12 @@ import {getPhoto} from './create-photos.js';
 
 // Нахождение нужного элемента
 const bigPhoto = document.querySelector('.big-picture');
-const bigPhotoClone = bigPhoto.cloneNode(true);
 
 // Функция которая создает комменты
 const createCommentsForBigPhoto = (commentsInformation) => {
   const commentBigPhoto = document.querySelector('.social__comment');
-  const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
-  const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
-  const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
+  const commentBigPhotoImage = commentBigPhoto.querySelector('.social__picture');
+  const commentBigPhotoMessage = commentBigPhoto.querySelector('.social__text');
 
   commentBigPhotoImage.src = commentsInformation.avatar;
   commentBigPhotoImage.alt = commentsInformation.name;
@@ -18,37 +16,36 @@ const createCommentsForBigPhoto = (commentsInformation) => {
 
 // Функция которая удаляет класс hidden и тд
 const displayBigPhoto = (information) => {
-  bigPhotoClone.classList.remove('hidden');
+  bigPhoto.classList.remove('hidden');
 
   // Задание значений
-  const imageBigPhoto = bigPhotoClone.querySelector('.big-picture__img').content;
-  // У строки выше я ещё пыталась задать значение
-  // const imageBigPhoto = bigPhotoClone.querySelector('.big-picture__img').content.querySelector('img'); но всё равно выдает ошибку связанную с url
-  const likesBigPhoto = bigPhotoClone.querySelector('.likes-count');
-  const descriptionBigPhoto = bigPhotoClone.querySelector('.social__caption');
-  const visibleCommentsBigPhoto = bigPhotoClone.querySelector('.social__comment-shown-count');
-  const allCommentsBigPhoto = bigPhotoClone.querySelector('.social__comment-total-count');
-  const commentsBigPhoto = bigPhotoClone.querySelector('social__comments');
+  const imageBigPhoto = bigPhoto.querySelector('img');
+  // Строка выше должна будет найти то фото в диве
+  const likesBigPhoto = bigPhoto.querySelector('.likes-count');
+  const descriptionBigPhoto = bigPhoto.querySelector('.social__caption');
+  const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
+  const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
+  const commentsBigPhoto = bigPhoto.querySelector('social__comments');
 
   imageBigPhoto.src = information.url;
   likesBigPhoto.textContent = information.likes;
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
-  //  commentsBigPhoto.textContent = information.comments;
+  // commentsBigPhoto.textContent = information.comments;
   // Не уверена что строчка ниже сработает
   commentsBigPhoto.textContent = createCommentsForBigPhoto(information);
 
-  const socialCommentCount = bigPhotoClone.querySelector('.social__comment-count');
-  const commentsLoader = bigPhotoClone.querySelector('.comments-loader');
+  const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
+  const commentsLoader = bigPhoto.querySelector('.comments-loader');
   socialCommentCount.classList.add('hidden');
   commentsLoader.classList.add('hidden');
 
-  return bigPhotoClone;
+  return bigPhoto;
 };
 
 // Переменные для функций и обработчиков ниже
 
-const closeButton = bigPhotoClone.querySelector('.big-picture__cancel');
+const closeButton = bigPhoto.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -59,12 +56,12 @@ const onDocumentKeydown = (evt) => {
 
 // Функции по открытию и закрытию окна
 
-const openBigPhoto = (card) => {
+const openBigPhoto = (pictureObj) => {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  displayBigPhoto(card);
+  displayBigPhoto(pictureObj);
 };
 
 const closeBigPhoto = () => {
@@ -74,19 +71,18 @@ const closeBigPhoto = () => {
 };
 
 // Обработчики событий
-const startListener = () => {
+const startListener = (data) => {
 
   const pictures = document.querySelectorAll('.picture');
 
   pictures.forEach((picture) => {
     picture.addEventListener('click', () => {
-      /* Как я думаю должна сработать строка ниже
-      1. Вызывается функция openBigPhoto с аргументом элемент на который кликнули (picture)
-      2. Джаваскрипт идёт в функцию openBigPhoto и вместо card подставляет элемент на который кликнули
-      3. Когда джаваскрипт доходит до строки return displayBigPhoto(card); он идёт в функцию displayBigPhoto и подставляет вместо information элемент на который кликнули
-      4. Он подставляет данные к этому элементу
-      */
-      openBigPhoto(picture);
+
+      const id = parseInt(picture.dataset.id, 10); // Получаем id из data-id на кликнутой ссылке
+
+      const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
+
+      openBigPhoto(pictureObj); // Дальше передаём уже только его
     });
   });
 };
