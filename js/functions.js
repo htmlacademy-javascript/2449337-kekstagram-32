@@ -38,6 +38,4 @@ const countTime = (beginDay, finishDay, beginMeet, timeMeet) => {
   return beginingDay <= beginingMeet && finishedDay >= (beginingMeet + timeMeet);
 };
 
-
 // console.log(countTime('8:00', '20:00', '10:00', 240));
-
