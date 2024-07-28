@@ -14,7 +14,9 @@ const createPhotoByTemplate = (picture) => {
   likesPhoto.textContent = picture.likes;
   imagePhoto.alt = picture.description;
   imagePhoto.src = picture.url;
+
   templateClone.dataset.id = picture.id;
+
 
   return templateClone;
 };

@@ -16,7 +16,9 @@ const fromHoursToMinuts = (time) => {
   return Number(hours) * 60 + Number(minutes);
 };
 
+
 // console.log(fromHoursToMinuts('8:00'));
+
 
 /*
 const countTime = (beginDay, finishDay, beginMeet, timeMeet) => {
