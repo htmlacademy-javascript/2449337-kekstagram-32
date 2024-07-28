@@ -29,8 +29,6 @@ const createCommentsForBigPhoto = (commentsInformation) => {
 
 // Функция которая удаляет класс hidden и тд
 const displayBigPhoto = (information) => {
-  bigPhoto.classList.remove('hidden');
-
   // Задание значений
   const imageBigPhoto = bigPhoto.querySelector('.big-picture__img img');
   // Строка выше должна будет найти то фото в диве
@@ -77,6 +75,8 @@ const onDocumentKeydown = (evt) => {
 const openBigPhoto = (pictureObj) => {
   body.classList.add('modal-open');
 
+  bigPhoto.classList.remove('hidden');
+
   document.addEventListener('keydown', onDocumentKeydown);
 
   displayBigPhoto(pictureObj);
@@ -84,6 +84,8 @@ const openBigPhoto = (pictureObj) => {
 
 const closeBigPhoto = () => {
   body.classList.remove('modal-open');
+
+  bigPhoto.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
@@ -101,14 +103,13 @@ const startListener = (data) => {
       const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
 
       openBigPhoto(pictureObj); // Дальше передаём уже только его
-
-      closeButton.addEventListener('click', () => {
-        closeBigPhoto();
-      }
-      );
     });
   });
 };
 
+closeButton.addEventListener('click', () => {
+  closeBigPhoto();
+}
+);
 
 export {displayBigPhoto,startListener};

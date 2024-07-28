@@ -6,3 +6,5 @@ import {startListener} from './paint-big-photo.js';
 const data = getPhoto();
 generateTemplates(data);
 startListener(data);
+
+import './work-form.js';
