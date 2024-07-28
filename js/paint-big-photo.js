@@ -5,13 +5,26 @@ const bigPhoto = document.querySelector('.big-picture');
 
 // Функция которая создает комменты
 const createCommentsForBigPhoto = (commentsInformation) => {
-  const commentBigPhoto = document.querySelector('.social__comment');
-  const commentBigPhotoImage = commentBigPhoto.querySelector('.social__picture');
-  const commentBigPhotoMessage = commentBigPhoto.querySelector('.social__text');
+  const commentListElement = bigPhoto.querySelector('.social__comments');
+  commentListElement.innerHTML = '';
+
+  const commentBigPhoto = document.querySelector('#comment').textContent.querySelector('.social__comment');
+  const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
+  const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
+  const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
   commentBigPhotoImage.src = commentsInformation.avatar;
   commentBigPhotoImage.alt = commentsInformation.name;
   commentBigPhotoMessage.textContent = commentsInformation.message;
+
+  const fragment = document.createDocumentFragment();
+
+  commentsInformation.forEach(() => {
+    const comment = commentBigPhotoClone;
+    fragment.append(comment);
+  });
+
+  commentListElement.append(fragment);
 };
 
 // Функция которая удаляет класс hidden и тд
@@ -19,13 +32,13 @@ const displayBigPhoto = (information) => {
   bigPhoto.classList.remove('hidden');
 
   // Задание значений
-  const imageBigPhoto = bigPhoto.querySelector('img');
+  const imageBigPhoto = bigPhoto.querySelector('.big-picture__img img');
   // Строка выше должна будет найти то фото в диве
   const likesBigPhoto = bigPhoto.querySelector('.likes-count');
   const descriptionBigPhoto = bigPhoto.querySelector('.social__caption');
   const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
   const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
-  const commentsBigPhoto = bigPhoto.querySelector('social__comments');
+  // const commentsBigPhoto = bigPhoto.querySelector('.social__comments');
 
   imageBigPhoto.src = information.url;
   likesBigPhoto.textContent = information.likes;
@@ -33,15 +46,20 @@ const displayBigPhoto = (information) => {
   allCommentsBigPhoto.textContent = information.comments.length;
   // commentsBigPhoto.textContent = information.comments;
   // Не уверена что строчка ниже сработает
-  commentsBigPhoto.textContent = createCommentsForBigPhoto(information);
+  createCommentsForBigPhoto(information.comments);
 
-  const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
-  const commentsLoader = bigPhoto.querySelector('.comments-loader');
-  socialCommentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
+  //   const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
+  //   const commentsLoader = bigPhoto.querySelector('.comments-loader');
+  //   socialCommentCount.classList.add('hidden');
+  //   commentsLoader.classList.add('hidden');
 
   return bigPhoto;
 };
+
+const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
+const commentsLoader = bigPhoto.querySelector('.comments-loader');
+socialCommentCount.classList.add('hidden');
+commentsLoader.classList.add('hidden');
 
 // Переменные для функций и обработчиков ниже
 
@@ -83,12 +101,14 @@ const startListener = (data) => {
       const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
 
       openBigPhoto(pictureObj); // Дальше передаём уже только его
+
+      closeButton.addEventListener('click', () => {
+        closeBigPhoto();
+      }
+      );
     });
   });
 };
-closeButton.addEventListener('click', () => {
-  closeBigPhoto();
-}
-);
+
 
 export {displayBigPhoto,startListener};
