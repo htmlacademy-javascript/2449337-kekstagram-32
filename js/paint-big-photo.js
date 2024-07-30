@@ -8,18 +8,26 @@ const createCommentsForBigPhoto = (commentsInformation) => {
   const commentListElement = bigPhoto.querySelector('.social__comments');
   commentListElement.innerHTML = '';
 
-  const commentBigPhoto = document.querySelector('#comment').textContent.querySelector('.social__comment');
-  const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
-  const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
-  const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
+  const commentBigPhoto = document.querySelector('#comment').content.querySelector('.social__comment');
+  // const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
+  // const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
+  // const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
-  commentBigPhotoImage.src = commentsInformation.avatar;
-  commentBigPhotoImage.alt = commentsInformation.name;
-  commentBigPhotoMessage.textContent = commentsInformation.message;
+  // commentBigPhotoImage.src = commentsInformation.avatar;
+  // commentBigPhotoImage.alt = commentsInformation.name;
+  // commentBigPhotoMessage.textContent = commentsInformation.message;
 
   const fragment = document.createDocumentFragment();
 
-  commentsInformation.forEach(() => {
+  commentsInformation.forEach((item) => {
+    const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
+    const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
+    const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
+
+    commentBigPhotoImage.src = item.avatar;
+    commentBigPhotoImage.alt = item.name;
+    commentBigPhotoMessage.textContent = item.message;
+
     const comment = commentBigPhotoClone;
     fragment.append(comment);
   });
@@ -63,12 +71,6 @@ commentsLoader.classList.add('hidden');
 
 const closeButton = bigPhoto.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
-const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    body.classList.remove('modal-open');
-  }
-};
 
 // Функции по открытию и закрытию окна
 
@@ -88,6 +90,15 @@ const closeBigPhoto = () => {
   bigPhoto.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    body.classList.remove('modal-open');
+
+    closeBigPhoto();
+  }
 };
 
 // Обработчики событий
