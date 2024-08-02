@@ -8,5 +8,5 @@ generateTemplates(data);
 startListener(data);
 
 import './work-form.js';
-import {resetScale} from './scale.js';
-resetScale();
+// import './scale.js';
+// import './effects.js';
