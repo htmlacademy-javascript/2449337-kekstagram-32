@@ -1,3 +1,9 @@
+import {resetScale} from './scale.js';
+import {
+  init as initEffect,
+  reset as resetEffect
+} from './effects.js';
+
 // Переменные для настройки хештегов
 const maxHashtagCount = 5;
 const valudSimvols = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -32,6 +38,8 @@ const showModal = () => {
 const hideModal = () => {
   form.reset();
   pristine.reset();
+  resetScale();
+  resetEffect();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -103,3 +111,4 @@ pristine.addValidator(
 fileField.addEventListener('change', onFileInputChange);
 closeButton.addEventListener('click', onCloseButtonClick);
 form.addEventListener('submit', onFormSubmit);
+initEffect();
