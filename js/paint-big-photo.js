@@ -3,19 +3,31 @@ import {getPhoto} from './create-photos.js';
 // Нахождение нужного элемента
 const bigPhoto = document.querySelector('.big-picture');
 
+// Переменные для показа части комментариев
+const commentsPerPorotion = 5;
+const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
+const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
+const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
+const commentsLoader = bigPhoto.querySelector('.comments-loader');
+
+let commentsShow = 0;
+let comments = [];
+
 // Функция которая создает комменты
 const createCommentsForBigPhoto = (commentsInformation) => {
   const commentListElement = bigPhoto.querySelector('.social__comments');
   commentListElement.innerHTML = '';
 
   const commentBigPhoto = document.querySelector('#comment').content.querySelector('.social__comment');
-  // const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
-  // const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
-  // const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
-  // commentBigPhotoImage.src = commentsInformation.avatar;
-  // commentBigPhotoImage.alt = commentsInformation.name;
-  // commentBigPhotoMessage.textContent = commentsInformation.message;
+  commentsShow += commentsPerPorotion;
+
+  if (commentsShow >= comments.length) {
+    commentsLoader.classList.add('hidden');
+    commentsShow = comments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
 
   const fragment = document.createDocumentFragment();
 
@@ -28,11 +40,19 @@ const createCommentsForBigPhoto = (commentsInformation) => {
     commentBigPhotoImage.alt = item.name;
     commentBigPhotoMessage.textContent = item.message;
 
-    const comment = commentBigPhotoClone;
-    fragment.append(comment);
+    // const comment = commentBigPhotoClone;
+    // fragment.append(comment);
   });
 
+  for (let i = 0; i < commentsShow; i++) {
+    const comment = commentBigPhotoClone;
+    fragment.append(comment);
+  }
+
+  commentListElement.innerHTML = '';
   commentListElement.append(fragment);
+  visibleCommentsBigPhoto.textContent = commentsShow;
+
 };
 
 // Функция которая удаляет класс hidden и тд
@@ -42,8 +62,6 @@ const displayBigPhoto = (information) => {
   // Строка выше должна будет найти то фото в диве
   const likesBigPhoto = bigPhoto.querySelector('.likes-count');
   const descriptionBigPhoto = bigPhoto.querySelector('.social__caption');
-  const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
-  const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
   // const commentsBigPhoto = bigPhoto.querySelector('.social__comments');
 
   imageBigPhoto.src = information.url;
@@ -54,18 +72,8 @@ const displayBigPhoto = (information) => {
   // Не уверена что строчка ниже сработает
   createCommentsForBigPhoto(information.comments);
 
-  //   const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
-  //   const commentsLoader = bigPhoto.querySelector('.comments-loader');
-  //   socialCommentCount.classList.add('hidden');
-  //   commentsLoader.classList.add('hidden');
-
   return bigPhoto;
 };
-
-const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
-const commentsLoader = bigPhoto.querySelector('.comments-loader');
-socialCommentCount.classList.add('hidden');
-commentsLoader.classList.add('hidden');
 
 // Переменные для функций и обработчиков ниже
 
@@ -90,6 +98,7 @@ const closeBigPhoto = () => {
   bigPhoto.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+  commentsShow = 0;
 };
 
 const onDocumentKeydown = (evt) => {
@@ -100,6 +109,8 @@ const onDocumentKeydown = (evt) => {
     closeBigPhoto();
   }
 };
+
+const onCommentsLoaderClick = () => createCommentsForBigPhoto();
 
 // Обработчики событий
 const startListener = (data) => {
@@ -116,6 +127,10 @@ const startListener = (data) => {
       openBigPhoto(pictureObj); // Дальше передаём уже только его
     });
   });
+  comments = data.comments;
+  if (comments.length > 0) {
+    createCommentsForBigPhoto();
+  }
 };
 
 closeButton.addEventListener('click', () => {
@@ -123,5 +138,6 @@ closeButton.addEventListener('click', () => {
 }
 );
 
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export {displayBigPhoto,startListener};
