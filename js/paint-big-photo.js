@@ -1,3 +1,6 @@
+// Я попыталась вписать решение из лайва в свое, но не получилось. Возможно некоторые части кода строят не там где нужно.
+// Вопросы есть на 38, 132 строках
+
 import {getPhoto} from './create-photos.js';
 
 // Нахождение нужного элемента
@@ -32,6 +35,7 @@ const createCommentsForBigPhoto = (commentsInformation) => {
   const fragment = document.createDocumentFragment();
 
   commentsInformation.forEach((item) => {
+    // Я не понимаю как связать то что ниже и цикл, я пробовала вставлять сюда цикл, но это не помогло
     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
@@ -52,7 +56,6 @@ const createCommentsForBigPhoto = (commentsInformation) => {
   commentListElement.innerHTML = '';
   commentListElement.append(fragment);
   visibleCommentsBigPhoto.textContent = commentsShow;
-
 };
 
 // Функция которая удаляет класс hidden и тд
@@ -69,7 +72,6 @@ const displayBigPhoto = (information) => {
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
   // commentsBigPhoto.textContent = information.comments;
-  // Не уверена что строчка ниже сработает
   createCommentsForBigPhoto(information.comments);
 
   return bigPhoto;
@@ -127,6 +129,7 @@ const startListener = (data) => {
       openBigPhoto(pictureObj); // Дальше передаём уже только его
     });
   });
+  // Возможно это должно быть в другом месте
   comments = data.comments;
   if (comments.length > 0) {
     createCommentsForBigPhoto();
