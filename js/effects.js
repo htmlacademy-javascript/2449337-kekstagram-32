@@ -1,3 +1,6 @@
+// В целом тут всё более-менее понятно, но не доконца. Я не совсем понимаю как работает noUiSlider. Есть вопросы на 74, 84 строках
+// И как работает вот это effectToFilter[chosenEffect], ведь chosenEffect сначала эффект по умолчанию (65 строка), а потом это объект с эффектами (128 строка), как там должно меняться значение на нужный эффект?
+
 // Данные еффектов
 const effects = {
   DEFAULT: 'none',
@@ -15,7 +18,7 @@ const effectToFilter = {
     step: 1
   },
   [effects.CHROME]: {
-    style: 'grayscare',
+    style: 'grayscale',
     unit: '',
     min: 0,
     max: 1,
@@ -29,7 +32,7 @@ const effectToFilter = {
     step: 0.1
   },
   [effects.MARVIN]: {
-    style: 'invern',
+    style: 'invert',
     unit: '%',
     min: 0,
     max: 100,
@@ -55,9 +58,9 @@ const effectToFilter = {
 const modalElement = document.querySelector('.img-upload');
 const imageElement = modalElement.querySelector('.img-upload__preview img');
 const effectsElement = modalElement.querySelector('.effects');
-const sliderElement = modalElement.querySelector('.effects-level__slider');
-const sliderContainerElemnt = modalElement.querySelector('.img-upload__efffect-level');
-const effectLevelElement = modalElement.querySelector('.effect-leve__value');
+const sliderElement = modalElement.querySelector('.effect-level__slider');
+const sliderContainerElement = modalElement.querySelector('.img-upload__effect-level');
+const effectLevelElement = modalElement.querySelector('.effect-level__value');
 
 let chosenEffect = effects.DEFAULT;
 const isDefault = () => chosenEffect === effects.DEFAULT;
@@ -68,18 +71,19 @@ const setImageStyle = () => {
     return;
   }
 
+  // Почему эти 2 переменные в скобках
   const {value} = effectLevelElement;
   const {style, unit} = effectToFilter[chosenEffect];
   imageElement.style.filter = `${style}(${value}${unit})`;
 };
 
 const showSlider = () => {
-  sliderContainerElemnt.classList.remove('hidden');
+  sliderContainerElement.classList.remove('hidden');
 };
 
+// Зачем 2 одинаковые функции
 const hideSlider = () => {
-  effectLevelElement.value = sliderElement.noUiSlider.get();
-  setImageStyle();
+  sliderContainerElement.classList.add('hidden');
 };
 
 const onSliderUpdate = () => {
@@ -92,7 +96,7 @@ const createSlider = ({min, max, step}) => {
     range: {min, max},
     step,
     start: max,
-    connect: 'lover',
+    connect: 'lower',
     format: {
       to: (value) => Number(value),
       from: (value) => Number(value)
@@ -119,8 +123,8 @@ const setSlider = () => {
   }
 };
 
-const setEffect = () => {
-  chosenEffect = effects;
+const setEffect = (effect) => {
+  chosenEffect = effect;
   setSlider();
   setImageStyle();
 };

@@ -8,5 +8,3 @@ generateTemplates(data);
 startListener(data);
 
 import './work-form.js';
-// import './scale.js';
-// import './effects.js';
