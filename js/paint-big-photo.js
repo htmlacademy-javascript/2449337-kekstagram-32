@@ -1,38 +1,66 @@
-import {getPhoto} from './create-photos.js';
+// Я попыталась вписать решение из лайва в свое, но не получилось. Возможно некоторые части кода строят не там где нужно.
+// Вопросы есть на 38, 132 строках
 
 // Нахождение нужного элемента
 const bigPhoto = document.querySelector('.big-picture');
 
+// Переменные для показа части комментариев
+const commentsPerPorotion = 5;
+const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
+const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
+const commentsLoader = bigPhoto.querySelector('.comments-loader');
+
+let commentsShow = 0;
+let comments = [];
+
 // Функция которая создает комменты
-const createCommentsForBigPhoto = (commentsInformation) => {
+const createCommentsForBigPhoto = () => {
   const commentListElement = bigPhoto.querySelector('.social__comments');
   commentListElement.innerHTML = '';
 
   const commentBigPhoto = document.querySelector('#comment').content.querySelector('.social__comment');
-  // const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
-  // const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
-  // const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
-  // commentBigPhotoImage.src = commentsInformation.avatar;
-  // commentBigPhotoImage.alt = commentsInformation.name;
-  // commentBigPhotoMessage.textContent = commentsInformation.message;
+  commentsShow += commentsPerPorotion;
+
+  if (commentsShow >= comments.length) {
+    commentsLoader.classList.add('hidden');
+    commentsShow = comments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
 
   const fragment = document.createDocumentFragment();
 
-  commentsInformation.forEach((item) => {
+  //   commentsInformation.forEach((item) => {
+  //     // Я не понимаю как связать то что ниже и цикл, я пробовала вставлять сюда цикл, но это не помогло
+  //     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
+  //     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
+  //     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
+
+  //     commentBigPhotoImage.src = item.avatar;
+  //     commentBigPhotoImage.alt = item.name;
+  //     commentBigPhotoMessage.textContent = item.message;
+
+  //     const comment = commentBigPhotoClone;
+  //     fragment.append(comment);
+  //   });
+
+  for (let i = 0; i < commentsShow; i++) {
     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
-    commentBigPhotoImage.src = item.avatar;
-    commentBigPhotoImage.alt = item.name;
-    commentBigPhotoMessage.textContent = item.message;
+    commentBigPhotoImage.src = comments[i].avatar;
+    commentBigPhotoImage.alt = comments[i].name;
+    commentBigPhotoMessage.textContent = comments[i].message;
 
     const comment = commentBigPhotoClone;
     fragment.append(comment);
-  });
+  }
 
+  commentListElement.innerHTML = '';
   commentListElement.append(fragment);
+  visibleCommentsBigPhoto.textContent = commentsShow;
 };
 
 // Функция которая удаляет класс hidden и тд
@@ -42,8 +70,6 @@ const displayBigPhoto = (information) => {
   // Строка выше должна будет найти то фото в диве
   const likesBigPhoto = bigPhoto.querySelector('.likes-count');
   const descriptionBigPhoto = bigPhoto.querySelector('.social__caption');
-  const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
-  const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
   // const commentsBigPhoto = bigPhoto.querySelector('.social__comments');
 
   imageBigPhoto.src = information.url;
@@ -51,21 +77,13 @@ const displayBigPhoto = (information) => {
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
   // commentsBigPhoto.textContent = information.comments;
-  // Не уверена что строчка ниже сработает
-  createCommentsForBigPhoto(information.comments);
+  // createCommentsForBigPhoto(information.comments);
 
-  //   const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
-  //   const commentsLoader = bigPhoto.querySelector('.comments-loader');
-  //   socialCommentCount.classList.add('hidden');
-  //   commentsLoader.classList.add('hidden');
+  comments = information.comments;
+  createCommentsForBigPhoto();
 
   return bigPhoto;
 };
-
-const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
-const commentsLoader = bigPhoto.querySelector('.comments-loader');
-socialCommentCount.classList.add('hidden');
-commentsLoader.classList.add('hidden');
 
 // Переменные для функций и обработчиков ниже
 
@@ -90,6 +108,7 @@ const closeBigPhoto = () => {
   bigPhoto.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+  commentsShow = 0;
 };
 
 const onDocumentKeydown = (evt) => {
@@ -100,6 +119,8 @@ const onDocumentKeydown = (evt) => {
     closeBigPhoto();
   }
 };
+
+const onCommentsLoaderClick = () => createCommentsForBigPhoto();
 
 // Обработчики событий
 const startListener = (data) => {
@@ -114,6 +135,11 @@ const startListener = (data) => {
       const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
 
       openBigPhoto(pictureObj); // Дальше передаём уже только его
+
+    //   comments = pictureObj.comments;
+    //   if (comments.length > 0) {
+    //     createCommentsForBigPhoto();
+    //   }
     });
   });
 };
@@ -123,5 +149,6 @@ closeButton.addEventListener('click', () => {
 }
 );
 
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 export {displayBigPhoto,startListener};
