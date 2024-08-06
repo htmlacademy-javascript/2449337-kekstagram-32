@@ -1,8 +1,6 @@
 // Я попыталась вписать решение из лайва в свое, но не получилось. Возможно некоторые части кода строят не там где нужно.
 // Вопросы есть на 38, 132 строках
 
-import {getPhoto} from './create-photos.js';
-
 // Нахождение нужного элемента
 const bigPhoto = document.querySelector('.big-picture');
 
@@ -10,14 +8,13 @@ const bigPhoto = document.querySelector('.big-picture');
 const commentsPerPorotion = 5;
 const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-count');
 const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
-const socialCommentCount = bigPhoto.querySelector('.social__comment-count');
 const commentsLoader = bigPhoto.querySelector('.comments-loader');
 
 let commentsShow = 0;
 let comments = [];
 
 // Функция которая создает комменты
-const createCommentsForBigPhoto = (commentsInformation) => {
+const createCommentsForBigPhoto = () => {
   const commentListElement = bigPhoto.querySelector('.social__comments');
   commentListElement.innerHTML = '';
 
@@ -34,21 +31,29 @@ const createCommentsForBigPhoto = (commentsInformation) => {
 
   const fragment = document.createDocumentFragment();
 
-  commentsInformation.forEach((item) => {
-    // Я не понимаю как связать то что ниже и цикл, я пробовала вставлять сюда цикл, но это не помогло
+  //   commentsInformation.forEach((item) => {
+  //     // Я не понимаю как связать то что ниже и цикл, я пробовала вставлять сюда цикл, но это не помогло
+  //     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
+  //     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
+  //     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
+
+  //     commentBigPhotoImage.src = item.avatar;
+  //     commentBigPhotoImage.alt = item.name;
+  //     commentBigPhotoMessage.textContent = item.message;
+
+  //     const comment = commentBigPhotoClone;
+  //     fragment.append(comment);
+  //   });
+
+  for (let i = 0; i < commentsShow; i++) {
     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
 
-    commentBigPhotoImage.src = item.avatar;
-    commentBigPhotoImage.alt = item.name;
-    commentBigPhotoMessage.textContent = item.message;
+    commentBigPhotoImage.src = comments[i].avatar;
+    commentBigPhotoImage.alt = comments[i].name;
+    commentBigPhotoMessage.textContent = comments[i].message;
 
-    // const comment = commentBigPhotoClone;
-    // fragment.append(comment);
-  });
-
-  for (let i = 0; i < commentsShow; i++) {
     const comment = commentBigPhotoClone;
     fragment.append(comment);
   }
@@ -72,7 +77,10 @@ const displayBigPhoto = (information) => {
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
   // commentsBigPhoto.textContent = information.comments;
-  createCommentsForBigPhoto(information.comments);
+  // createCommentsForBigPhoto(information.comments);
+
+  comments = information.comments;
+  createCommentsForBigPhoto();
 
   return bigPhoto;
 };
@@ -127,13 +135,13 @@ const startListener = (data) => {
       const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
 
       openBigPhoto(pictureObj); // Дальше передаём уже только его
+
+    //   comments = pictureObj.comments;
+    //   if (comments.length > 0) {
+    //     createCommentsForBigPhoto();
+    //   }
     });
   });
-  // Возможно это должно быть в другом месте
-  comments = data.comments;
-  if (comments.length > 0) {
-    createCommentsForBigPhoto();
-  }
 };
 
 closeButton.addEventListener('click', () => {

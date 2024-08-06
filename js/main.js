@@ -7,7 +7,4 @@ const data = getPhoto();
 generateTemplates(data);
 startListener(data);
 
-// Не забыть раскоментировать work-form он был отключён так как там выдавал ошибку и не покизывались картинки, а они нужны для работы с заданием Открывается и закрывается
-// import './work-form.js';
-// import './scale.js';
-// import './effects.js';
+import './work-form.js';

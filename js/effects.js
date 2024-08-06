@@ -18,7 +18,7 @@ const effectToFilter = {
     step: 1
   },
   [effects.CHROME]: {
-    style: 'grayscare',
+    style: 'grayscale',
     unit: '',
     min: 0,
     max: 1,
@@ -32,7 +32,7 @@ const effectToFilter = {
     step: 0.1
   },
   [effects.MARVIN]: {
-    style: 'invern',
+    style: 'invert',
     unit: '%',
     min: 0,
     max: 100,
@@ -58,9 +58,9 @@ const effectToFilter = {
 const modalElement = document.querySelector('.img-upload');
 const imageElement = modalElement.querySelector('.img-upload__preview img');
 const effectsElement = modalElement.querySelector('.effects');
-const sliderElement = modalElement.querySelector('.effects-level__slider');
-const sliderContainerElemnt = modalElement.querySelector('.img-upload__efffect-level');
-const effectLevelElement = modalElement.querySelector('.effect-leve__value');
+const sliderElement = modalElement.querySelector('.effect-level__slider');
+const sliderContainerElement = modalElement.querySelector('.img-upload__effect-level');
+const effectLevelElement = modalElement.querySelector('.effect-level__value');
 
 let chosenEffect = effects.DEFAULT;
 const isDefault = () => chosenEffect === effects.DEFAULT;
@@ -78,13 +78,12 @@ const setImageStyle = () => {
 };
 
 const showSlider = () => {
-  sliderContainerElemnt.classList.remove('hidden');
+  sliderContainerElement.classList.remove('hidden');
 };
 
 // Зачем 2 одинаковые функции
 const hideSlider = () => {
-  effectLevelElement.value = sliderElement.noUiSlider.get();
-  setImageStyle();
+  sliderContainerElement.classList.add('hidden');
 };
 
 const onSliderUpdate = () => {
@@ -97,7 +96,7 @@ const createSlider = ({min, max, step}) => {
     range: {min, max},
     step,
     start: max,
-    connect: 'lover',
+    connect: 'lower',
     format: {
       to: (value) => Number(value),
       from: (value) => Number(value)
@@ -124,8 +123,8 @@ const setSlider = () => {
   }
 };
 
-const setEffect = () => {
-  chosenEffect = effects;
+const setEffect = (effect) => {
+  chosenEffect = effect;
   setSlider();
   setImageStyle();
 };
