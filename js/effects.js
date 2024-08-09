@@ -1,6 +1,3 @@
-// В целом тут всё более-менее понятно, но не доконца. Я не совсем понимаю как работает noUiSlider. Есть вопросы на 74, 84 строках
-// И как работает вот это effectToFilter[chosenEffect], ведь chosenEffect сначала эффект по умолчанию (65 строка), а потом это объект с эффектами (128 строка), как там должно меняться значение на нужный эффект?
-
 // Данные еффектов
 const effects = {
   DEFAULT: 'none',
@@ -71,7 +68,6 @@ const setImageStyle = () => {
     return;
   }
 
-  // Почему эти 2 переменные в скобках
   const {value} = effectLevelElement;
   const {style, unit} = effectToFilter[chosenEffect];
   imageElement.style.filter = `${style}(${value}${unit})`;
@@ -81,7 +77,6 @@ const showSlider = () => {
   sliderContainerElement.classList.remove('hidden');
 };
 
-// Зачем 2 одинаковые функции
 const hideSlider = () => {
   sliderContainerElement.classList.add('hidden');
 };
