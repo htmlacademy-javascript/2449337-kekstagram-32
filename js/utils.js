@@ -1,6 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 
-const dataErrorTemplate = document.querySelector('#data-error');
+const dataErrorTemplate = document.querySelector('#data-error').content;
 
 const showAlert = () => {
   const dataErrorElement = dataErrorTemplate.cloneNode(true);

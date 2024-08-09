@@ -1,5 +1,5 @@
 const successMessage = document.querySelector('#success').content.querySelector('.success');
-const errorMessage = document.querySelector('#error').content.querySelector('/error');
+const errorMessage = document.querySelector('#error').content.querySelector('.error');
 const body = document.querySelector('body');
 
 const onBodyClick = (evt) => {
@@ -19,12 +19,12 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const hideMessage = () => {
+function hideMessage () {
   const messageElement = document.querySelector('.success') || document.querySelector('.error');
   messageElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   body.removeEventListener('click', onBodyClick);
-};
+}
 
 const showMessage = (messageElement, closeButtonClass) => {
   body.append(messageElement);

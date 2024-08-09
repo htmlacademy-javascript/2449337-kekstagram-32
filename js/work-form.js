@@ -13,7 +13,7 @@ const errorText = {
   invalidPattern: 'Неправильный хештег'
 };
 
-const SubmitButtonText (IDLE, SUBMITTING) => {
+const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SUBMITTING: 'Отправляю...'
 };
@@ -54,8 +54,8 @@ const hideModal = () => {
 const toggleSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
   submitButton.textContent = isDisabled
-  ? SubmitButtonText.SUBMITTING
-  : SubmitButtonText.IDLE;
+    ? SubmitButtonText.SUBMITTING
+    : SubmitButtonText.IDLE;
 };
 
 const isTextFieldFocused = () =>
@@ -141,4 +141,4 @@ closeButton.addEventListener('click', onCloseButtonClick);
 form.addEventListener('submit', onFormSubmit);
 initEffect();
 
-export {setOnFormSubmit, hideModal}
+export {setOnFormSubmit, hideModal};
