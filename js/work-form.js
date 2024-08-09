@@ -13,6 +13,11 @@ const errorText = {
   invalidPattern: 'Неправильный хештег'
 };
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SUBMITTING: 'Отправляю...'
+};
+
 // Остальные переменные
 
 const body = document.querySelector('body');
@@ -22,6 +27,7 @@ const closeButton = form.querySelector('.img-upload__cancel');
 const fileField = form.querySelector('.img-upload__input');
 const hastagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -45,6 +51,13 @@ const hideModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled
+    ? SubmitButtonText.SUBMITTING
+    : SubmitButtonText.IDLE;
+};
+
 const isTextFieldFocused = () =>
   document.activeElement === hastagField ||
   document.activeElement === commentField;
@@ -57,13 +70,15 @@ const normalizeTags = (tagString) => tagString
 const hasValidTags = (value) => normalizeTags(value).every((tag) => valudSimvols.test(tag));
 const hasValidCount = (value) => normalizeTags(value).length <= maxHashtagCount;
 
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+
 const hasUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
     hideModal();
   }
@@ -75,6 +90,19 @@ const onCloseButtonClick = () => {
 
 const onFileInputChange = () => {
   showModal();
+};
+
+const setOnFormSubmit = (callback) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(form));
+      toggleSubmitButton();
+    }
+  });
 };
 
 // Функция которая отменяет действие по умолчанию (отправление) и проводит валидацию
@@ -112,3 +140,5 @@ fileField.addEventListener('change', onFileInputChange);
 closeButton.addEventListener('click', onCloseButtonClick);
 form.addEventListener('submit', onFormSubmit);
 initEffect();
+
+export {setOnFormSubmit, hideModal};
