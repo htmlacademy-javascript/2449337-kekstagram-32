@@ -5,9 +5,10 @@ import { getData, sendData} from './work-server.js';
 import {setOnFormSubmit, hideModal} from './work-form.js';
 
 import {generateTemplates} from './paint-photos.js';
-import {showAlert} from './utils.js';
+import {showAlert, debounce} from './utils.js';
 import {showSuccessMessage, showErrorMessage} from './message.js';
-// import {startListener} from './paint-big-photo.js';
+import {init as initFilter, getFilteredPictures} from './filter.js';
+import {startListener} from './paint-big-photo.js';
 
 // const data = getPhoto();
 // generateTemplates(data);
@@ -25,7 +26,11 @@ setOnFormSubmit(async (data) => {
 
 try {
   const data = await getData();
-  generateTemplates(data);
+  const debouncedRenderGallery = debounce(generateTemplates);
+  initFilter(data, debouncedRenderGallery);
+  generateTemplates(getFilteredPictures());
+  // generateTemplates(data);
+  startListener(data);
 } catch {
   showAlert();
 }

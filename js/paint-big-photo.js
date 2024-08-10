@@ -31,20 +31,6 @@ const createCommentsForBigPhoto = () => {
 
   const fragment = document.createDocumentFragment();
 
-  //   commentsInformation.forEach((item) => {
-  //     // Я не понимаю как связать то что ниже и цикл, я пробовала вставлять сюда цикл, но это не помогло
-  //     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
-  //     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
-  //     const commentBigPhotoMessage = commentBigPhotoClone.querySelector('.social__text');
-
-  //     commentBigPhotoImage.src = item.avatar;
-  //     commentBigPhotoImage.alt = item.name;
-  //     commentBigPhotoMessage.textContent = item.message;
-
-  //     const comment = commentBigPhotoClone;
-  //     fragment.append(comment);
-  //   });
-
   for (let i = 0; i < commentsShow; i++) {
     const commentBigPhotoClone = commentBigPhoto.cloneNode(true);
     const commentBigPhotoImage = commentBigPhotoClone.querySelector('.social__picture');
@@ -111,14 +97,14 @@ const closeBigPhoto = () => {
   commentsShow = 0;
 };
 
-const onDocumentKeydown = (evt) => {
+function onDocumentKeydown (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     body.classList.remove('modal-open');
 
     closeBigPhoto();
   }
-};
+}
 
 const onCommentsLoaderClick = () => createCommentsForBigPhoto();
 
@@ -146,8 +132,7 @@ const startListener = (data) => {
 
 closeButton.addEventListener('click', () => {
   closeBigPhoto();
-}
-);
+});
 
 commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
