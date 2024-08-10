@@ -1,8 +1,8 @@
 // Нужные переменные
-const scaleStep = 25;
-const minScale = 25;
-const maxScale = 100;
-const defaultScale = 100;
+const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const DEFAULT_SCALE = 100;
 
 const modalElement = document.querySelector('.img-upload');
 const smallerButtonElement = modalElement.querySelector('.scale__control--smaller');
@@ -19,17 +19,17 @@ const onSmallerButtonClick = () => {
   scaleImage(
     // Обясните как работает строка ниже, пожалуйста, а именно вот это
     // parseInt(scaleInputElement.value, 10) зачем тут 10 и parseInt
-    Math.max(parseInt(scaleInputElement.value, 10) - scaleStep, minScale)
+    Math.max(parseInt(scaleInputElement.value, 10) - SCALE_STEP, MIN_SCALE)
   );
 };
 
 const onBiggerButtonClick = () => {
   scaleImage(
-    Math.min(parseInt(scaleInputElement.value, 10) + scaleStep, maxScale)
+    Math.min(parseInt(scaleInputElement.value, 10) + SCALE_STEP, MAX_SCALE)
   );
 };
 
-const resetScale = () => scaleImage(defaultScale);
+const resetScale = () => scaleImage(DEFAULT_SCALE);
 
 smallerButtonElement.addEventListener('click', onSmallerButtonClick);
 biggerButtonElement.addEventListener('click', onBiggerButtonClick);

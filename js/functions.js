@@ -17,9 +17,6 @@ const fromHoursToMinuts = (time) => {
 };
 
 
-// console.log(fromHoursToMinuts('8:00'));
-
-
 /*
 const countTime = (beginDay, finishDay, beginMeet, timeMeet) => {
   beginingDay = fromHoursToMinuts(beginDay);
@@ -37,5 +34,3 @@ const countTime = (beginDay, finishDay, beginMeet, timeMeet) => {
   beginingMeet = fromHoursToMinuts(beginMeet);
   return beginingDay <= beginingMeet && finishedDay >= (beginingMeet + timeMeet);
 };
-
-// console.log(countTime('8:00', '20:00', '10:00', 240));

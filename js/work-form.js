@@ -5,11 +5,11 @@ import {
 } from './effects.js';
 
 // Переменные для настройки хештегов
-const maxHashtagCount = 5;
+const MAX_HASHTAG_COUNT = 5;
 const valudSimvols = /^#[a-zа-яё0-9]{1,19}$/i;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const errorText = {
-  invalidCount: `Максисум ${maxHashtagCount} xeштегов`,
+  invalidCount: `Максисум ${MAX_HASHTAG_COUNT} xeштегов`,
   notUnique: 'Хештеги должны быть уникальными',
   invalidPattern: 'Неправильный хештег'
 };
@@ -77,7 +77,7 @@ const normalizeTags = (tagString) => tagString
   .filter((tag) => Boolean(tag.length));
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => valudSimvols.test(tag));
-const hasValidCount = (value) => normalizeTags(value).length <= maxHashtagCount;
+const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
 
 // Что делает Boolean?
 const isErrorMessageShown = () => Boolean(document.querySelector('.error'));

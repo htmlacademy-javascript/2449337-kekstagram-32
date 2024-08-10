@@ -2,10 +2,10 @@ import {getRandomInteger} from './random.js';
 import {getRandomArrayElement} from './random.js';
 
 
-const photoMinLike = 15;
-const photoMaxLike = 200;
+const PHOTO_MIN_LIKE = 15;
+const PHOTO_MAX_LIKE = 200;
 
-const photoMaxComment = 30;
+const PHOTO_MAX_COMMENT = 30;
 
 const photoDescription = [
   'Самое интерестное за этот день',
@@ -61,9 +61,9 @@ const createPhoto = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(photoDescription),
-  likes: getRandomInteger(photoMinLike, photoMaxLike),
+  likes: getRandomInteger(PHOTO_MIN_LIKE, PHOTO_MAX_LIKE),
   comments: Array.from(
-    {length: getRandomInteger(0, photoMaxComment)},
+    {length: getRandomInteger(0, PHOTO_MAX_COMMENT)},
     createComment
   ),
 });
@@ -72,7 +72,5 @@ const getPhoto = () => Array.from(
   {length: 25},
   (_, index) => createPhoto(index + 1)
 );
-
-// console.log(getPhoto());
 
 export {getPhoto};
