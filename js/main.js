@@ -4,7 +4,7 @@
 import { getData, sendData} from './work-server.js';
 import {setOnFormSubmit, hideModal} from './work-form.js';
 
-import {generateTemplates} from './paint-photos.js';
+import {generateTemplates, generateTemplates as renderGallery} from './paint-photos.js';
 import {showAlert, debounce} from './utils.js';
 import {showSuccessMessage, showErrorMessage} from './message.js';
 import {init as initFilter, getFilteredPictures} from './filter.js';
@@ -26,10 +26,12 @@ setOnFormSubmit(async (data) => {
 
 try {
   const data = await getData();
-  const debouncedRenderGallery = debounce(generateTemplates);
+  // console.log(data);
+  const debouncedRenderGallery = debounce(renderGallery);
   initFilter(data, debouncedRenderGallery);
-  generateTemplates(getFilteredPictures());
-  // generateTemplates(data);
+  // Возможно какая-то из 3 строк ниже лишняя
+  renderGallery(getFilteredPictures());
+  generateTemplates(data);
   startListener(data);
 } catch {
   showAlert();

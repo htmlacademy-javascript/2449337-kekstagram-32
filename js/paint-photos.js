@@ -1,3 +1,5 @@
+import { displayBigPhoto } from './paint-big-photo';
+
 // Нахождение нужного шаблона и контейнера для добавления фото
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
 const containerForPhotos = document.querySelector('.pictures');
@@ -28,6 +30,28 @@ const generateTemplates = (pictures) => {
 
   pictures.forEach((picture) => {
     const createFragment = createPhotoByTemplate(picture);
+
+    // let pictures = [];
+    const onContainerClick = (evt) => {
+      const thumbnale = evt.target.closest('[data-trumbnail-id]');
+      if (!thumbnale) {
+        return;
+      }
+
+      evt.preventDefault();
+      picture = pictures.find(
+        (item) => item.id === +thumbnale.dataset.thumbnaleId
+      );
+      displayBigPhoto(picture);
+    };
+
+    const renderGallery = (currentPictures) => {
+      pictures = currentPictures;
+      generateTemplates(pictures, containerForPhotos);
+      containerForPhotos.addEventListener('click', onContainerClick);
+    };
+
+
     fragment.append(createFragment);
   });
 
@@ -41,7 +65,7 @@ import { displayBigPhoto } from './paint-big-photo';
 let pictures = [];
 
 const onContainerClick = (evt) => {
-  const thumbnale = evt.target.closest('[data-trumbnail-id');
+  const thumbnale = evt.target.closest('[data-trumbnail-id]');
   if (!thumbnale) {
     return;
   }

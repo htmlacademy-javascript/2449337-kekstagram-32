@@ -32,9 +32,6 @@ const setOnFilterClick = (callback) => {
     }
 
     const clickedButton = evt.target;
-    if (clickedButton.id === currentFilter) {
-      return;
-    }
 
     filterElement
       .querySelector('.img-filters__button--active')
