@@ -6,7 +6,6 @@ const Filter = {
 };
 
 const filterElement = document.querySelector('.img-filters');
-// Ниже должно быть let, но редактор сам может поменять на const
 let currentFilter = Filter.DEFAULT;
 let pictures = [];
 
@@ -32,9 +31,6 @@ const setOnFilterClick = (callback) => {
     }
 
     const clickedButton = evt.target;
-    if (clickedButton.id === currentFilter) {
-      return;
-    }
 
     filterElement
       .querySelector('.img-filters__button--active')

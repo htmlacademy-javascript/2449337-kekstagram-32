@@ -5,10 +5,11 @@ import {
 } from './effects.js';
 
 // Переменные для настройки хештегов
-const maxHashtagCount = 5;
+const MAX_HASHTAG_COUNT = 5;
 const valudSimvols = /^#[a-zа-яё0-9]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const errorText = {
-  invalidCount: `Максисум ${maxHashtagCount} xeштегов`,
+  invalidCount: `Максисум ${MAX_HASHTAG_COUNT} xeштегов`,
   notUnique: 'Хештеги должны быть уникальными',
   invalidPattern: 'Неправильный хештег'
 };
@@ -28,6 +29,8 @@ const fileField = form.querySelector('.img-upload__input');
 const hastagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const photoPreview = form.querySelector('.img-upload__preview img');
+const effectsPreviews = form.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -62,13 +65,18 @@ const isTextFieldFocused = () =>
   document.activeElement === hastagField ||
   document.activeElement === commentField;
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
 const normalizeTags = (tagString) => tagString
   .trim()
   .split(' ')
   .filter((tag) => Boolean(tag.length));
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => valudSimvols.test(tag));
-const hasValidCount = (value) => normalizeTags(value).length <= maxHashtagCount;
+const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
 
 const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
 
@@ -89,6 +97,14 @@ const onCloseButtonClick = () => {
 };
 
 const onFileInputChange = () => {
+  const file = fileField.files[0];
+
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   showModal();
 };
 
