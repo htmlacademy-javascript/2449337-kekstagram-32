@@ -1,3 +1,5 @@
+import { startListener } from './paint-big-photo';
+
 // Нахождение нужного шаблона и контейнера для добавления фото
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
 const containerForPhotos = document.querySelector('.pictures');
@@ -29,6 +31,7 @@ const generateTemplates = (pictures) => {
   pictures.forEach((picture) => {
     const createFragment = createPhotoByTemplate(picture);
     fragment.append(createFragment);
+    startListener(createFragment, pictures);
   });
 
   containerForPhotos.append(fragment);

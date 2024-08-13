@@ -1,6 +1,3 @@
-// Я попыталась вписать решение из лайва в свое, но не получилось. Возможно некоторые части кода строят не там где нужно.
-// Вопросы есть на 38, 132 строках
-
 // Нахождение нужного элемента
 const bigPhoto = document.querySelector('.big-picture');
 
@@ -56,14 +53,11 @@ const displayBigPhoto = (information) => {
   // Строка выше должна будет найти то фото в диве
   const likesBigPhoto = bigPhoto.querySelector('.likes-count');
   const descriptionBigPhoto = bigPhoto.querySelector('.social__caption');
-  // const commentsBigPhoto = bigPhoto.querySelector('.social__comments');
 
   imageBigPhoto.src = information.url;
   likesBigPhoto.textContent = information.likes;
   descriptionBigPhoto.textContent = information.description;
   allCommentsBigPhoto.textContent = information.comments.length;
-  // commentsBigPhoto.textContent = information.comments;
-  // createCommentsForBigPhoto(information.comments);
 
   comments = information.comments;
   createCommentsForBigPhoto();
@@ -109,24 +103,16 @@ function onDocumentKeydown (evt) {
 const onCommentsLoaderClick = () => createCommentsForBigPhoto();
 
 // Обработчики событий
-const startListener = (data) => {
+const startListener = (picture, data) => {
 
-  const pictures = document.querySelectorAll('.picture');
+  picture.addEventListener('click', () => {
 
-  pictures.forEach((picture) => {
-    picture.addEventListener('click', () => {
+    const id = parseInt(picture.dataset.id, 10); // Получаем id из data-id на кликнутой ссылке
 
-      const id = parseInt(picture.dataset.id, 10); // Получаем id из data-id на кликнутой ссылке
+    const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
 
-      const pictureObj = data.find((obj) => obj.id === id); // По этому id ищем в массиве нужный объект фото
+    openBigPhoto(pictureObj); // Дальше передаём уже только его
 
-      openBigPhoto(pictureObj); // Дальше передаём уже только его
-
-    //   comments = pictureObj.comments;
-    //   if (comments.length > 0) {
-    //     createCommentsForBigPhoto();
-    //   }
-    });
   });
 };
 
