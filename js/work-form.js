@@ -67,7 +67,6 @@ const isTextFieldFocused = () =>
 
 const isValidType = (file) => {
   const fileName = file.name.toLowerCase();
-  // Объясните, что возвращает, пожалуйста
   return FILE_TYPES.some((it) => fileName.endsWith(it));
 };
 
@@ -79,7 +78,6 @@ const normalizeTags = (tagString) => tagString
 const hasValidTags = (value) => normalizeTags(value).every((tag) => valudSimvols.test(tag));
 const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
 
-// Что делает Boolean?
 const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
 
 const hasUniqueTags = (value) => {

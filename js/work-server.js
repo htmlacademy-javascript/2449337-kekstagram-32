@@ -1,5 +1,3 @@
-// Не знаю как правильно экспортировать sendData, ведь в export нельзя написать route.SEND_DATA. Я попыталась задать route.SEND_DATA в переменную и экспортировать её, но всё равно ошибка. Не доконца понимаю функция load
-
 const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',

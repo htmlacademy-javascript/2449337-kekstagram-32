@@ -17,8 +17,6 @@ const scaleImage = (value) => {
 
 const onSmallerButtonClick = () => {
   scaleImage(
-    // Обясните как работает строка ниже, пожалуйста, а именно вот это
-    // parseInt(scaleInputElement.value, 10) зачем тут 10 и parseInt
     Math.max(parseInt(scaleInputElement.value, 10) - SCALE_STEP, MIN_SCALE)
   );
 };
