@@ -7,6 +7,9 @@ const visibleCommentsBigPhoto = bigPhoto.querySelector('.social__comment-shown-c
 const allCommentsBigPhoto = bigPhoto.querySelector('.social__comment-total-count');
 const commentsLoader = bigPhoto.querySelector('.comments-loader');
 
+const closeButton = bigPhoto.querySelector('.big-picture__cancel');
+const body = document.querySelector('body');
+
 let commentsShow = 0;
 let comments = [];
 
@@ -64,11 +67,6 @@ const displayBigPhoto = (information) => {
 
   return bigPhoto;
 };
-
-// Переменные для функций и обработчиков ниже
-
-const closeButton = bigPhoto.querySelector('.big-picture__cancel');
-const body = document.querySelector('body');
 
 // Функции по открытию и закрытию окна
 
