@@ -44,7 +44,7 @@ const showModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const hideModal = () => {
+const closeButtonClickHandler = () => {
   form.reset();
   pristine.reset();
   resetScale();
@@ -88,12 +88,12 @@ const hasUniqueTags = (value) => {
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
-    hideModal();
+    closeButtonClickHandler();
   }
 }
 
 const onCloseButtonClick = () => {
-  hideModal();
+  closeButtonClickHandler();
 };
 
 const onFileInputChange = () => {
@@ -157,4 +157,4 @@ closeButton.addEventListener('click', onCloseButtonClick);
 form.addEventListener('submit', onFormSubmit);
 initEffect();
 
-export {setOnFormSubmit, hideModal};
+export {setOnFormSubmit, closeButtonClickHandler};
