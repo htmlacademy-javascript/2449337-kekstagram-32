@@ -1,4 +1,4 @@
-import { startListener } from './paint-big-photo';
+import { startListener } from './paint-big-photo.js';
 
 // Нахождение нужного шаблона и контейнера для добавления фото
 const templatePhoto = document.querySelector('#picture').content.querySelector('.picture');
